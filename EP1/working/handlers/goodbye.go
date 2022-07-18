@@ -15,5 +15,7 @@ func NewGoodBye(l *log.Logger) *GoodBye{
 }
 
 func (g *GoodBye) ServeHTTP(rw http.ResponseWriter, r *http.Request){
+
+	g.l.Println("Byeeeee World")
 	rw.Write([]byte("Byeeeeee"))
 }

@@ -1,53 +1,27 @@
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
+	"gRPC/EP1/handlers"
 	"log"
 	"net/http"
+	"os"
 )
 
 
 func main() {
 
+	l := log.New(os.Stdout, "product-api", log.LstdFlags)
 
-	http.HandleFunc("/", func(rw http.ResponseWriter, r*http.Request){
-		log.Println("Hello world!")
+	//Assign the new hello handler
+	hh := handlers.NewHello(l)
+	gh := handlers.NewGoodBye(l)
 
-		d, err := ioutil.ReadAll(r.Body)
-		if err != nil || d == nil {
-			http.Error(rw, "Wrong name Passed", http.StatusBadRequest) 
-			return
-		}
+	sm := http.NewServeMux()
 
-		for i:=0; i<5; i++{
-			fmt.Fprintf(rw, "Hello %s", d)
-		}
-		/*
-		//This snippet is used to get data from user request.
-		d, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			http.Error(rw, "Wrong name Passed", http.StatusBadRequest) 
-		}
+	sm.Handle("/", hh)
+	sm.Handle("/g", gh)
 
-		log.Printf("Data %s \n", d)
-		*/
-	})
-
-	http.HandleFunc("/help", func(rw http.ResponseWriter, r*http.Request){
-		log.Println("Hello Help")
-
-		d, err := ioutil.ReadAll(r.Body)
-		if err != nil || d == nil {
-			http.Error(rw, "Help Menu Coming Soon", http.StatusContinue)
-			return
-		}
-
-		for i:=0; i<5; i++{
-			fmt.Fprintf(rw, "COMING SOON ! \n")
-		}
-	})
-
-	http.ListenAndServe(":9090", nil) 
+	 
+	http.ListenAndServe(":9090", sm)  
 
 }
