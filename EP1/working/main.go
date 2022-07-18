@@ -15,12 +15,13 @@ func main() {
 	//Assign the new hello handler
 	hh := handlers.NewHello(l)
 	gh := handlers.NewGoodBye(l)
+	ch := handlers.NewCalculator(l)
 
 	sm := http.NewServeMux()
 
 	sm.Handle("/", hh)
 	sm.Handle("/g", gh)
-
+	sm.Handle("/c", ch)
 	 
 	http.ListenAndServe(":9090", sm)  
 
