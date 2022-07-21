@@ -15,16 +15,17 @@ func main() {
 
 	l := log.New(os.Stdout, "product-api", log.LstdFlags)
 
-	//Assign the new hello handler
-	hh := handlers.NewHello(l)
-	gh := handlers.NewGoodBye(l)
-	ch := handlers.NewCalculator(l)
+	//Assign new http handlers from here
+	/* THESE ARE THE TESTING HANDLERS */
+	// hh := handlers.NewHello(l)
+	// gh := handlers.NewGoodBye(l)
+	// ch := handlers.NewCalculator(l)
 
+	ph := handlers.NewProduct(l)
+ 
 	sm := http.NewServeMux()
 
-	sm.Handle("/", hh)
-	sm.Handle("/g", gh)
-	sm.Handle("/c", ch)
+	sm.Handle("/", ph)
 	
 	s := http.Server{
 		Addr: ":9090",
