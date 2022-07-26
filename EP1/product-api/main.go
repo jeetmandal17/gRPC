@@ -44,7 +44,6 @@ func main() {
 		WriteTimeout: 1*time.Second,
 	}
 
-
 	go func(){
 		err := s.ListenAndServe()  
 		if err != nil {

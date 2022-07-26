@@ -80,6 +80,13 @@ func (p Products) MiddlewareProductValidation(next http.Handler) http.Handler{
 			return
 		}
 
+		// Validate the product input 
+		err = prod.Validate()
+		if err != nil{
+			p.l.Println(" [ERROR] validating Product", err)
+			http.Error(rw, "Product fields are not correct", http.StatusBadRequest)
+			return 
+		}
 		ctx := context.WithValue(r.Context(), KeyProduct{}, prod)
 		r = r.WithContext(ctx)
 
